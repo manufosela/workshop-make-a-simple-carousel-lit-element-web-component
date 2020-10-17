@@ -53,7 +53,7 @@ export class SimpleCarousel extends LitElement {
         type: String,
         attribute: false
       },
-            /**
+      /**
        * Current Image Description
        * @property
        * @type { String }
@@ -61,6 +61,15 @@ export class SimpleCarousel extends LitElement {
       currentDescription: {
         type: String,
         attribute: false
+      },
+      /**
+       * Second delay to play images
+       * @property
+       * @type { Number }
+       */
+      secondsDelay: {
+        type: Number,
+        attribute: 'seconds-delay'
       }
     };
   }
@@ -80,13 +89,15 @@ export class SimpleCarousel extends LitElement {
     this.descriptions = [];
     this.currentDescription = '';
 
+    this.secondsDelay = 0;
+    this.interval = null;
+
     this._goToLeft = this._goToLeft.bind(this);
     this._goToRight = this._goToRight.bind(this);
   }  
 
   getCarouselData() {
     const carouselDataHTML = this.querySelectorAll('ul[slot="images-data"] li');
-    console.log(carouselDataHTML);
     Array.from(carouselDataHTML).reduce((acc, el) => {
       const imgHTML = el.querySelector('[name="imagen"]');
       const descHTML = el.querySelector('[name="description"');
@@ -120,6 +131,10 @@ export class SimpleCarousel extends LitElement {
         this.activeElement.click();
       }
     };
+
+    if (this.delay > 0) {
+      this.toggleAutoPlay();
+    }
   }
 
   getArrowLeftImageIndex() {
@@ -161,6 +176,22 @@ export class SimpleCarousel extends LitElement {
     this.currentDescription = this.carouselData[this.currentIndex].description;
   }
 
+  toggleAutoPlay() {
+    if (this.secondsDelay === 0) {
+      return;
+    }
+    const control = this.shadowRoot.querySelector('#control').classList
+    if (Array.from(control).includes('play')) {
+      control.remove('play')
+      control.add('stop');
+      this.interval = setInterval(this._goToRight, this.secondsDelay * 1000);
+    } else {
+      control.add('play')
+      control.remove('stop');
+      clearInterval(this.interval);
+    }
+  }
+
   _circleSpan() {
     const dotsHTML = this.carouselData.map((grp, index)=> {
       return html`<button data-position="${index}" tabindex="0" @click="${this.goTo}" class="${(index===0) ? 'active': ''}"></button>`;
@@ -179,6 +210,11 @@ export class SimpleCarousel extends LitElement {
           <button tabindex="0" class="arrow">&#x203A;</button>
         </div>
         <nav class="indicators">
+          ${this.secondsDelay && html`
+            <button class="controls" tabindex="0" @click="${this.toggleAutoPlay}">
+              <div id="control" class="play" role="button"></div>
+            </button>
+          `}
           ${this._circleSpan()}
         </nav>
       </div>

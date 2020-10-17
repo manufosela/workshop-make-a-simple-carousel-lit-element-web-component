@@ -73,7 +73,6 @@ export const wcNameStyles = css`
   }
 
   .indicators button {
-    list-style: none;
     display: inline-block;
     border-radius: 50%;
     width: 20px;
@@ -93,6 +92,33 @@ export const wcNameStyles = css`
   }
   .description li {
     list-style: none;
+  }
+
+  .indicators .controls {
+    border-radius: 50%;
+    background:rgba(255,255,255,0.3);
+  }
+
+  .controls:hover {
+    background-color:rgba(255,255,255,1);
+  }
+
+  .play {
+    width: 0;
+    height: 0;
+    border-top: 5px solid transparent;
+    border-left: 10px solid #555;
+    border-bottom: 5px solid transparent;
+    position: relative;
+    left: -2px;
+  }
+
+  .stop {
+    height: 8px;
+    position: relative;
+    left: -2px;
+    width: 8px;
+    background-color: #555;
   }
 
 `;
