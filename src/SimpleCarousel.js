@@ -18,7 +18,7 @@ export class SimpleCarousel extends LitElement {
   static get properties() {
     return {
       /**
-       * Example of property
+       * Carousel images string separated by commas
        * @property
        * @type { String }
        */
@@ -26,11 +26,40 @@ export class SimpleCarousel extends LitElement {
         type: String,
         attribute:'image-list'
       },
+      /**
+       * Carousel images array
+       * @property
+       * @type { Array }
+       */
       images: {
-        type: Array
+        type: Array,
+        attribute: false
       },
+      /**
+       * Number of images of the carousel
+       * @property
+       * @type { Number }
+       */
       numImages: {
         type: Number,
+        attribute: false
+      },
+      /**
+       * Current Image Description
+       * @property
+       * @type { String }
+       */
+      description: {
+        type: String,
+        attribute: false
+      },
+      /**
+       * Images descriptions array
+       * @property
+       * @type { Array }
+       */
+      descriptions: {
+        type: Array,
         attribute: false
       }
     };
@@ -46,35 +75,21 @@ export class SimpleCarousel extends LitElement {
     this.left = null
     this.right = null;
     this.imagePath = './images/';
+    this.description = '';
+    this.descriptions = [];
 
     this._goToLeft = this._goToLeft.bind(this);
     this._goToRight = this._goToRight.bind(this);
   }  
 
-  _goToLeft(e) {
-    const newIndex = this.getArrowLeftImageIndex(this.getCurrentImageIndex());
-    this.activateIndicator(newIndex);
-    if (!this.left) {
-      this.left = this.intervalSlider('left');
-    }
-    this.setAttr(this.imgCarousel, 'src', this.images[newIndex]);
-  };
-
-  _goToRight(e) {
-    const newIndex = this.getArrowRightImageIndex(this.getCurrentImageIndex());
-    this.activateIndicator(newIndex);
-    if (!this.right) {
-      this.right = this.intervalSlider('right');
-    }
-    this.setAttr(this.imgCarousel, 'src', this.images[newIndex]);
+  getDescriptions() {
+    this.descriptions = this.querySelectorAll('ul[slot="descriptions"] li');
+    this.description = this.descriptions[0];
   }
 
-  updated(changedProps) {
-    console.log(changedProps);
-  }
-
-  requestUpdate(propName, oldValue) {
-    console.log(propName, oldValue);
+  connectedCallback() {
+    super.connectedCallback();
+    this.getDescriptions();
   }
 
   firstUpdated() {
@@ -92,26 +107,13 @@ export class SimpleCarousel extends LitElement {
     this.arrowRight.addEventListener('click', this._goToRight);
   }
 
-  setAttr(el, attr, value) {
-    return el.setAttribute(attr, value);
-  }
-  getAttr(el, attr) {
-    return el.getAttribute(attr);
-  }
-  getImageIndex(image) {
-    return this.images.indexOf(image);
-  }
-
-  getCurrentImageIndex() {
-    const currentImage = this.getAttr(this.imgCarousel, 'src');
-    return this.getImageIndex(currentImage);
+  getArrowLeftImageIndex() {
+    this.currentIndex = this.currentIndex === 0 ? this.numImages - 1 : this.currentIndex - 1;
+    return this.currentIndex;
   };
-
-  getArrowLeftImageIndex(currentIndex) {
-    return currentIndex === 0 ? this.numImages : currentIndex - 1;
-  };
-  getArrowRightImageIndex(currentIndex) {
-    return currentIndex === this.numImages ? 0 : currentIndex + 1;
+  getArrowRightImageIndex() {
+    this.currentIndex = (this.currentIndex + 1) % this.numImages; // currentIndex === this.numImages - 1 ? 0 : this.currentIndex + 1;
+    return this.currentIndex;
   };
 
   activateIndicator(index) {
@@ -123,21 +125,18 @@ export class SimpleCarousel extends LitElement {
     });
   };
 
-  intervalSlider(direction) {
-    let callback = null;
-    let getNewIndexFunc = null;
-    if (direction === 'left') {
-      getNewIndexFunc = () => this.getArrowLeftImageIndex(this.getCurrentImageIndex());
-    } else {
-      getNewIndexFunc = () => this.getArrowRightImageIndex(this.getCurrentImageIndex());
-    }
-  
-    callback = () => {
-      let newIndex = getNewIndexFunc();
-      this.activateIndicator(newIndex);
-      this.setAttr(this.imgCarousel, 'src', this.images[newIndex]);
-    }
-    return callback;
+  _goToLeft(e) {
+    this.getArrowLeftImageIndex();
+    this.activateIndicator(this.currentIndex);
+    this.imgCarousel.setAttribute('src', this.images[this.currentIndex]);
+    this.description = this.descriptions[this.currentIndex];
+  };
+
+  _goToRight(e) {
+    this.getArrowRightImageIndex();
+    this.activateIndicator(this.currentIndex);
+    this.imgCarousel.setAttribute('src', this.images[this.currentIndex]);
+    this.description = this.descriptions[this.currentIndex];
   }
 
   _circleSpan() {
@@ -160,6 +159,9 @@ export class SimpleCarousel extends LitElement {
         <div class="indicators">
           ${this._circleSpan()}
         </div>
+      </div>
+      <div class="description">
+        ${this.description}
       </div>
     `;
   }

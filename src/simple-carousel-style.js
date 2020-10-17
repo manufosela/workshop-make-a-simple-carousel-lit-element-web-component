@@ -69,7 +69,7 @@ export const wcNameStyles = css`
   left: 50%;
   transform: translateX(-50%);
   bottom: 0;
-  margin-bottom: 10px;
+  margin-bottom: 2rem;
 }
 
 .indicators>span {
@@ -78,10 +78,20 @@ export const wcNameStyles = css`
   width: 20px;
   height: 20px;
   background: white;
+  margin: 0 3px;
 }
 
 .indicators>span.active {
   background: #4fc355;
+}
+
+.description {
+  display:flex;
+  justify-content: center;
+  font-size: 1.3rem;
+}
+.description li {
+  list-style: none;
 }
 
 `;
