@@ -108,10 +108,10 @@ export class SimpleCarousel extends LitElement {
   };
 
   getArrowLeftImageIndex(currentIndex) {
-    return currentIndex === 0 ? this.numImages : currentIndex - 1;
+    return currentIndex === 0 ? this.numImages - 1 : currentIndex - 1;
   };
   getArrowRightImageIndex(currentIndex) {
-    return currentIndex === this.numImages ? 0 : currentIndex + 1;
+    return currentIndex === this.numImages - 1 ? 0 : currentIndex + 1;
   };
 
   activateIndicator(index) {
