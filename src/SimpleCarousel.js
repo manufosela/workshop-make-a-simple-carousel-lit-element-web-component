@@ -22,8 +22,16 @@ export class SimpleCarousel extends LitElement {
        * @property
        * @type { String }
        */
+      imageList: {
+        type: String,
+        attribute:'image-list'
+      },
       images: {
         type: Array
+      },
+      numImages: {
+        type: Number,
+        attribute: false
       }
     };
   }
@@ -34,11 +42,10 @@ export class SimpleCarousel extends LitElement {
 
   constructor() {
     super();
-    this.images = ['./images/1.jpg', './images/2.webp', './images/3.webp', './images/4.jpg', './images/5.webp', './images/6.webp'];
-    this.numImages = this.images.length - 1;
     this.currentIndex = 0;
     this.left = null
     this.right = null;
+    this.imagePath = './images/';
 
     this._goToLeft = this._goToLeft.bind(this);
     this._goToRight = this._goToRight.bind(this);
@@ -62,7 +69,20 @@ export class SimpleCarousel extends LitElement {
     this.setAttr(this.imgCarousel, 'src', this.images[newIndex]);
   }
 
+  updated(changedProps) {
+    console.log(changedProps);
+  }
+
+  requestUpdate(propName, oldValue) {
+    console.log(propName, oldValue);
+  }
+
   firstUpdated() {
+    this.images = this.imageList.split(',').map((img)=>{
+      return this.imagePath + img;
+    });
+    this.numImages = this.images.length;
+
     this.arrowLeft = this.shadowRoot.querySelector('.arrow-left');
     this.arrowRight = this.shadowRoot.querySelector('.arrow-right');
     this.imgCarousel = this.shadowRoot.querySelector('img');
@@ -120,6 +140,13 @@ export class SimpleCarousel extends LitElement {
     return callback;
   }
 
+  _circleSpan() {
+    const imgsHTML = this.imageList.split(',').map((img, index)=> {
+      return html`<span class="${(index===0) ? 'active': ''}"></span>`;
+    });
+    return imgsHTML;
+  }
+
   render() {
     return html`
       <div class="carousel">
@@ -131,12 +158,7 @@ export class SimpleCarousel extends LitElement {
           <span class="arrow">&#x203A;</span>
         </div>
         <div class="indicators">
-          <span class="active"></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
+          ${this._circleSpan()}
         </div>
       </div>
     `;
