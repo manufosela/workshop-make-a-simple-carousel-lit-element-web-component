@@ -1,54 +1,73 @@
-# simple-carousel
+# Web-component `simple-carousel`
 
-Lit-Element web component description
+Ejercicio de como convertir un `carousel de imagenes` hecho con Vanilla Javascript en un web-component refactorizando, añadiendo funcionalidad y caracteristicas y haciendolo accesible e indexable por buscadores.
 
-## Demo
+## Paso 1
 
-```
-<h2>Basic simple-carousel Demo</h2>
-<h3>Demo</h3>
-<simple-carousel></simple-carousel>
+Lo primero será clonar el repositorio y colocarse en la rama paso1.
 
 ```
-<!---
-```
-<custom-element-demo>
-  <template>
-    <link rel="import" href="simple-carousel.html">
-    <next-code-block></next-code-block>
-  </template>
-</custom-element-demo>
-```
--->
-```html
-<simple-carousel></simple-carousel>
-
-```
-## Install the Polymer-CLI
-
-First, make sure you have the [Polymer CLI](https://www.npmjs.com/package/polymer-cli) and npm (packaged with [Node.js](https://nodejs.org)) installed. Run `npm install` to install your element's dependencies, then run `polymer serve` to serve your element locally.
-
-## Viewing Your Element
-
-```
-$ polymer serve
+$ git clone https://github.com/manufosela/simple-carousel.git
+$ cd simple-carousel
+$ git checkout paso1
 ```
 
-## Running Tests
+Aquí aún no tenemos el `web-component`, si no solamente el carousel en vanilla javascript.
+Para probarlo necesitaremos algún servidor de estaticos, como la extensión de chrome ["Chrome web server"](https://chrome.google.com/webstore/detail/web-server-for-chrome/ofhbbkphhbklhfoeikjpcbhemlocgigb)
+
+Este código funciona, pero a nivel de semantica de etiquetas y de funciones se podría mejorar, pero es un buen MVP y punto de partida.
+
+## Paso 2
+
+Para ir al paso dos, hacemos checkout de la rama `paso2`
+```
+$ git checkout paso2
+```
+
+Aquí ya tenemos un `web-component` con una estructura de carpetas y las dependencias necesarias para desarrollar el mismo.
+
+Se ha metido todo el css en `/src/simple-carousel-style.js` para poder importarlo en el `web-component`
+
+El HTML se ha metido dentro del método `render` en `/src/SimpleCarousel.js`
+
+Las funciones se ha añadido como métodos dentro del componente en `/src/SimpleCarousel.js`
+
+Ahora si ejecutamos:
+```
+$ npm run start
+```
+
+Veremos como arranca un navegador y nos muestra exactamente el mismo carrusel de imagenes a nivel de funcionalidad.
+Sin embargo, si desde las `Dev Tools` accedemos a la composición de la página (tab `Elments`), veremos que ahora todo el HTML del carrusel está encapsulado en el `shadow-dom`, quedando innacesible para su indexación.
+
+## Paso 3
 
 ```
-$ polymer test
+$ git checkout paso3
 ```
 
-## Build
+## Paso 4
+
 ```
-$ npm run build
+$ git checkout paso4
 ```
 
-Your application is already set up to be tested via [web-component-tester](https://github.com/Polymer/web-component-tester). Run `polymer test` to run your application's test suite locally.
+## Paso 5
 
-##Author
-**user**
+```
+$ git checkout paso5
+```
+
+## Paso 6
+
+```
+$ git checkout paso6
+```
+
+
+
+## Author
+**manufosela**
 
 ## License
 
