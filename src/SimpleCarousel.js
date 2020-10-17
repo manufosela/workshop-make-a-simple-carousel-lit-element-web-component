@@ -18,15 +18,6 @@ export class SimpleCarousel extends LitElement {
   static get properties() {
     return {
       /**
-       * Carousel images string separated by commas
-       * @property
-       * @type { String }
-       */
-      imageList: {
-        type: String,
-        attribute:'image-list'
-      },
-      /**
        * Carousel images array
        * @property
        * @type { Array }
@@ -97,8 +88,8 @@ export class SimpleCarousel extends LitElement {
     const carouselDataHTML = this.querySelectorAll('ul[slot="images-data"] li');
     console.log(carouselDataHTML);
     Array.from(carouselDataHTML).reduce((acc, el) => {
-      const imgHTML = el.querySelector('img');
-      const descHTML = el.querySelector('span');
+      const imgHTML = el.querySelector('[name="imagen"]');
+      const descHTML = el.querySelector('[name="description"');
       this.carouselData.push({
         'image': imgHTML.src,
         'description': descHTML.textContent
@@ -119,10 +110,16 @@ export class SimpleCarousel extends LitElement {
     this.arrowLeft = this.shadowRoot.querySelector('.arrow-left');
     this.arrowRight = this.shadowRoot.querySelector('.arrow-right');
     this.imgCarousel = this.shadowRoot.querySelector('img');
-    this.indicators = this.shadowRoot.querySelectorAll('.indicators > span');
+    this.indicators = this.shadowRoot.querySelectorAll('.indicators > button');
 
     this.arrowLeft.addEventListener('click', this._goToLeft);
     this.arrowRight.addEventListener('click', this._goToRight);
+
+    this.onkeydown = function(e) {
+      if(e.keyCode === 13 && this.activeElement) {
+        this.activeElement.click();
+      }
+    };
   }
 
   getArrowLeftImageIndex() {
@@ -132,50 +129,58 @@ export class SimpleCarousel extends LitElement {
     this.currentIndex = (this.currentIndex + 1) % this.numImages; // currentIndex === this.numImages - 1 ? 0 : this.currentIndex + 1;
   };
 
-  activateIndicator(index) {
-    this.indicators.forEach((el, i) => {
-      if (el.classList.contains('active')) {
-        el.classList.remove('active')
-      };
-      if (index === i) el.classList.add('active');
-    });
+  deactivateIndicator() {
+    this.indicators[this.currentIndex].classList.remove('active');
+  }
+
+  activateIndicator() {
+    this.indicators[this.currentIndex].classList.add('active');
   };
 
   _goToLeft(e) {
+    this.deactivateIndicator();
     this.getArrowLeftImageIndex();
-    this.activateIndicator(this.currentIndex);
+    this.activateIndicator();
     this.currentImage = this.carouselData[this.currentIndex].image;
     this.currentDescription = this.carouselData[this.currentIndex].description;
   };
 
   _goToRight(e) {
+    this.deactivateIndicator();
     this.getArrowRightImageIndex();
-    this.activateIndicator(this.currentIndex);
+    this.activateIndicator();
+    this.currentImage = this.carouselData[this.currentIndex].image;
+    this.currentDescription = this.carouselData[this.currentIndex].description;
+  }
+
+  goTo(e) {
+    this.deactivateIndicator();
+    this.currentIndex = e.target.dataset.position;
+    this.activateIndicator();
     this.currentImage = this.carouselData[this.currentIndex].image;
     this.currentDescription = this.carouselData[this.currentIndex].description;
   }
 
   _circleSpan() {
-    return ``;
-    const imgsHTML = this.imageList.split(',').map((img, index)=> {
-      return html`<span class="${(index===0) ? 'active': ''}"></span>`;
+    const dotsHTML = this.carouselData.map((grp, index)=> {
+      return html`<button data-position="${index}" tabindex="0" @click="${this.goTo}" class="${(index===0) ? 'active': ''}"></button>`;
     });
-    return imgsHTML;
+    return dotsHTML;
   }
 
   render() {
     return html`
       <div class="carousel">
         <div class="arrow-left">
-          <span class="arrow">&#x2039;</span>
+          <button tabindex="0" class="arrow">&#x2039;</button>
         </div>
         <img src="${this.currentImage}" alt="Carousel Image ${this.currentImage}">
         <div class="arrow-right">
-          <span class="arrow">&#x203A;</span>
+          <button tabindex="0" class="arrow">&#x203A;</button>
         </div>
-        <div class="indicators">
+        <nav class="indicators">
           ${this._circleSpan()}
-        </div>
+        </nav>
       </div>
       <div class="description">
         ${this.currentDescription}
