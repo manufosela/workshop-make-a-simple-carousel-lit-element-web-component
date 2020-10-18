@@ -209,12 +209,14 @@ export class SimpleCarousel extends LitElement {
         <div class="arrow-right">
           <button tabindex="0" class="arrow">&#x203A;</button>
         </div>
+        <nav class="controls">
+        ${this.secondsDelay && html`
+          <button class="control" tabindex="0" @click="${this.toggleAutoPlay}">
+            <div id="control" class="play" role="button"></div>
+          </button>
+        `}
+        </nav>
         <nav class="indicators">
-          ${this.secondsDelay && html`
-            <button class="controls" tabindex="0" @click="${this.toggleAutoPlay}">
-              <div id="control" class="play" role="button"></div>
-            </button>
-          `}
           ${this._circleSpan()}
         </nav>
       </div>
