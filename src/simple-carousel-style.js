@@ -64,15 +64,19 @@ export const wcNameStyles = css`
     display: none;
   }
 
-  .indicators {
+  .indicators, .controls {
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
     bottom: 0;
     margin-bottom: 2rem;
   }
+  .controls {
+    left: 2%;
+    bottom: -12%;
+  }
 
-  .indicators button {
+  .indicators button, .controls button {
     display: inline-block;
     border-radius: 50%;
     width: 20px;
@@ -94,12 +98,12 @@ export const wcNameStyles = css`
     list-style: none;
   }
 
-  .indicators .controls {
+  .controls .control {
     border-radius: 50%;
     background:rgba(255,255,255,0.3);
   }
 
-  .controls:hover {
+  .control:hover {
     background-color:rgba(255,255,255,1);
   }
 
@@ -114,10 +118,10 @@ export const wcNameStyles = css`
   }
 
   .stop {
-    height: 8px;
+    height: 10px;
     position: relative;
     left: -2px;
-    width: 8px;
+    width: 10px;
     background-color: #555;
   }
 
