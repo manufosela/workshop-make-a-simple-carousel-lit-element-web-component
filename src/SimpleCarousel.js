@@ -114,14 +114,16 @@ export class SimpleCarousel extends LitElement {
 
   connectedCallback() {
     super.connectedCallback();
-    this.getCarouselData();
+    window.onload = () => {
+      this.getCarouselData();
+    }
   }
 
   firstUpdated() {
+    super.firstUpdated();
     this.arrowLeft = this.shadowRoot.querySelector('.arrow-left');
     this.arrowRight = this.shadowRoot.querySelector('.arrow-right');
     this.imgCarousel = this.shadowRoot.querySelector('img');
-    this.indicators = this.shadowRoot.querySelectorAll('.indicators > button');
 
     this.arrowLeft.addEventListener('click', this._goToLeft);
     this.arrowRight.addEventListener('click', this._goToRight);
@@ -145,11 +147,13 @@ export class SimpleCarousel extends LitElement {
   };
 
   deactivateIndicator() {
-    this.indicators[this.currentIndex].classList.remove('active');
+    const indicator = this.shadowRoot.querySelector(`button[data-position="${this.currentIndex}"]`);
+    indicator.classList.remove('active');
   }
 
   activateIndicator() {
-    this.indicators[this.currentIndex].classList.add('active');
+    const indicator = this.shadowRoot.querySelector(`button[data-position="${this.currentIndex}"]`);
+    indicator.classList.add('active');
   };
 
   _goToLeft(e) {
