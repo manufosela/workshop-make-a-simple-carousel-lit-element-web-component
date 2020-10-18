@@ -201,7 +201,7 @@ export class SimpleCarousel extends LitElement {
 
   render() {
     return html`
-      <div class="carousel">
+      <div class="carousel" aria-hidden="true">
         <div class="arrow-left">
           <button tabindex="0" class="arrow">&#x2039;</button>
         </div>
