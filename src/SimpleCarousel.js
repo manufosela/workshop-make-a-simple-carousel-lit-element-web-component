@@ -18,30 +18,12 @@ export class SimpleCarousel extends LitElement {
   static get properties() {
     return {
       /**
-       * Carousel images array
-       * @property
-       * @type { Array }
-       */
-      images: {
-        type: Array,
-        attribute: false
-      },
-      /**
        * Number of images of the carousel
        * @property
        * @type { Number }
        */
       numImages: {
         type: Number,
-        attribute: false
-      },
-      /**
-       * Images descriptions array
-       * @property
-       * @type { Array }
-       */
-      descriptions: {
-        type: Array,
         attribute: false
       },
       /**
@@ -84,9 +66,7 @@ export class SimpleCarousel extends LitElement {
     this.left = null
     this.right = null;
     this.carouselData = [];
-    this.images = [];
     this.currentImage = '';
-    this.descriptions = [];
     this.currentDescription = '';
 
     this.secondsDelay = 0;
@@ -94,32 +74,45 @@ export class SimpleCarousel extends LitElement {
 
     this._goToLeft = this._goToLeft.bind(this);
     this._goToRight = this._goToRight.bind(this);
+
+    this.counter = 0;
   }  
-
+  
   getCarouselData() {
-    const carouselDataHTML = this.querySelectorAll('ul[slot="images-data"] li');
-    Array.from(carouselDataHTML).reduce((acc, el) => {
-      const imgHTML = el.querySelector('[name="imagen"]');
-      const descHTML = el.querySelector('[name="description"');
-      this.carouselData.push({
-        'image': imgHTML.src,
-        'description': descHTML.textContent
-      });
-    }, this.carouselData);
+    console.log('entra');
+    const carouselDataHTML = [...this.querySelectorAll('ul[slot="images-data"] li')];
+    if (carouselDataHTML.length) {
+      carouselDataHTML.reduce((acc, el) => {
+        const imgHTML = el.querySelector('[name="imagen"]');
+        const descHTML = el.querySelector('[name="description"');
+        this.carouselData.push({
+          'image': imgHTML.src,
+          'description': descHTML.textContent
+        });
+      }, this.carouselData);
 
-    this.numImages = this.carouselData.length;
-    this.currentImage = this.carouselData[this.currentIndex].image;
-    this.currentDescription = this.carouselData[this.currentIndex].description;
+      this.numImages = this.carouselData.length;
+      this.currentImage = this.carouselData[this.currentIndex].image;
+      this.currentDescription = this.carouselData[this.currentIndex].description;
+    }
   }
 
   connectedCallback() {
     super.connectedCallback();
-    window.onload = () => {
-      this.getCarouselData();
-    }
+    this.getCarouselData();
+
+    document.addEventListener('next-right-image', this._goToRight);
+    document.addEventListener('next-left-image', this._goToLeft);
+  }
+
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    document.removeEventListener('next-right-image', this._goToRight);
+    document.removeEventListener('next-left-image', this._goToLeft);
   }
 
   firstUpdated() {
+    this.counter++;
     super.firstUpdated();
     this.arrowLeft = this.shadowRoot.querySelector('.arrow-left');
     this.arrowRight = this.shadowRoot.querySelector('.arrow-right');
@@ -129,7 +122,7 @@ export class SimpleCarousel extends LitElement {
     this.arrowRight.addEventListener('click', this._goToRight);
 
     this.onkeydown = function(e) {
-      if(e.keyCode === 13 && this.activeElement) {
+      if (e.keyCode === 13 && this.activeElement) {
         this.activeElement.click();
       }
     };
@@ -143,7 +136,7 @@ export class SimpleCarousel extends LitElement {
     this.currentIndex = this.currentIndex === 0 ? this.numImages - 1 : this.currentIndex - 1;
   };
   getArrowRightImageIndex() {
-    this.currentIndex = (this.currentIndex + 1) % this.numImages; // currentIndex === this.numImages - 1 ? 0 : this.currentIndex + 1;
+    this.currentIndex = (this.currentIndex + 1) % this.numImages;
   };
 
   deactivateIndicator() {
