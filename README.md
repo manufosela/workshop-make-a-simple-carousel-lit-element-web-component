@@ -16,9 +16,13 @@ Aquí aún no tenemos el `web-component`, si no solamente el carousel en vanilla
 Para probarlo necesitaremos algún servidor de estaticos.
 Si tienes instalado Python 2.X en tu equipo, puedes poner:
 ```
-$ python -m SimpleHTTPServer 8081
+$ python -m SimpleHTTPServer 8081    #python 2
+
+$ python -m http.server 8081   #python 3
 ```
 Entonces abre un navegador y pon ```localhost:8081```
+
+(En el paso 0 es necesario utilizar un servidor externo porque partimos de un carousel vanilla sin npm configurado)
 
 O también puedes usar la extensión de chrome ["Chrome web server"](https://chrome.google.com/webstore/detail/web-server-for-chrome/ofhbbkphhbklhfoeikjpcbhemlocgigb)
 
