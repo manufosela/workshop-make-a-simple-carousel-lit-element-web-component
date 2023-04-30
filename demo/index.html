@@ -8,12 +8,12 @@
     <style>
       .blocks {
         display:flex;
-        display-direction:row;
+        flex-direction:row;
         flex-wrap: wrap;
       }
       .block {
         display:flex;
-        display-direction:column;
+        flex-direction:column;
         flex-wrap: wrap;
         white-space: normal;
       }
@@ -48,27 +48,27 @@
       <simple-carousel seconds-delay="2">
         <ul slot="images-data" style="display:none;">
           <li>
-            <img name="imagen" src="images/1.jpg" aria-labelledby="descripcion1"/>
+            <img name="imagen" src="images/1.jpg" aria-labelledby="descripcion1" alt="imagen 1"/>
             <p id="descripcion1" name="description">Descripción de la foto 1</p>
           </li>
           <li>
-            <img name="imagen" src="images/2.webp" aria-labelledby="descripcion2" />
+            <img name="imagen" src="images/2.webp" aria-labelledby="descripcion2" alt="imagen 2" />
             <p id="descripcion2" name="description">Descripción de la foto 2</p>
           </li>
           <li>
-            <img name="imagen" src="images/3.webp" aria-labelledby="descripcion3" />
+            <img name="imagen" src="images/3.webp" aria-labelledby="descripcion3" alt="imagen 3" />
             <p id="descripcion3" name="description">Descripción de la foto 3</p>
           </li>
           <li>
-            <img name="imagen" src="images/4.jpg" aria-labelledby="descripcion4" />
+            <img name="imagen" src="images/4.jpg" aria-labelledby="descripcion4" alt="imagen 4" />
             <p id="descripcion4" name="description">Descripción de la foto 4</p>
           </li>
           <li>
-            <img name="imagen" src="images/5.webp" aria-labelledby="descripcion5"/>
+            <img name="imagen" src="images/5.webp" aria-labelledby="descripcion5" alt="imagen 5" />
             <p id="descripcion5" name="description">Descripción de la foto 5</p>
           </li>
           <li>
-            <img name="imagen" src="images/6.webp" aria-labelledby="descripcion6" />
+            <img name="imagen" src="images/6.webp" aria-labelledby="descripcion6" alt="imagen 6" />
             <p id="descripcion6" name="description">Descripción de la foto 6</p>
           </li>
         </ul>

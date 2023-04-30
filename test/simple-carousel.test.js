@@ -1,18 +1,34 @@
-/* eslint-disable no-unused-expressions */
-/* eslint-disable import/no-extraneous-dependencies */
-import { html, fixture, expect } from "@open-wc/testing";
-import "../simple-carousel";
+import { html } from 'lit';
+import { fixture, expect } from '@open-wc/testing';
 
-describe("SimpleCarousel", () => {
-  it("should have the basic template", async () => {
+import '../simple-carousel.js';
+
+describe('SimpleCarousel', () => {
+  it('has a default title "Hey there" and counter 5', async () => {
+    const el = await fixture(html`<simple-carousel></simple-carousel>`);
+
+    expect(el.title).to.equal('Hey there');
+    expect(el.counter).to.equal(5);
+  });
+
+  it('increases the counter on button click', async () => {
+    const el = await fixture(html`<simple-carousel></simple-carousel>`);
+    el.shadowRoot.querySelector('button').click();
+
+    expect(el.counter).to.equal(6);
+  });
+
+  it('can override the title via attribute', async () => {
     const el = await fixture(
-      html`
-        <simple-carousel></simple-carousel>
-      `
+      html`<simple-carousel title="attribute title"></simple-carousel>`
     );
-    const base = el.shadowRoot.querySelector(".simple-carousel");
 
-    expect(base).not.to.be.null;
-    expect(el).dom.to.equalSnapshot();
+    expect(el.title).to.equal('attribute title');
+  });
+
+  it('passes the a11y audit', async () => {
+    const el = await fixture(html`<simple-carousel></simple-carousel>`);
+
+    await expect(el).shadowDom.to.be.accessible();
   });
 });

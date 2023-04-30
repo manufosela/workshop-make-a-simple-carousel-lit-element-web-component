@@ -1,3 +1,3 @@
-import { SimpleCarousel } from "./src/SimpleCarousel";
+import { SimpleCarousel } from './src/SimpleCarousel.js';
 
-window.customElements.define(SimpleCarousel.is, SimpleCarousel);
+window.customElements.define('simple-carousel', SimpleCarousel);

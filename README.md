@@ -1,59 +1,62 @@
-# simple-carousel
+# \<simple-carousel>
 
-Lit-Element web component description
+This webcomponent follows the [open-wc](https://github.com/open-wc/open-wc) recommendation.
 
-## Demo
+## Installation
 
+```bash
+npm i simple-carousel
 ```
-<h2>Basic simple-carousel Demo</h2>
-<h3>Demo</h3>
-<simple-carousel></simple-carousel>
 
-```
-<!---
-```
-<custom-element-demo>
-  <template>
-    <link rel="import" href="simple-carousel.html">
-    <next-code-block></next-code-block>
-  </template>
-</custom-element-demo>
-```
--->
+## Usage
+
 ```html
+<script type="module">
+  import 'simple-carousel/simple-carousel.js';
+</script>
+
 <simple-carousel></simple-carousel>
-
-```
-## Install the Polymer-CLI
-
-First, make sure you have the [Polymer CLI](https://www.npmjs.com/package/polymer-cli) and npm (packaged with [Node.js](https://nodejs.org)) installed. Run `npm install` to install your element's dependencies, then run `polymer serve` to serve your element locally.
-
-## Viewing Your Element
-
-```
-$ polymer serve
 ```
 
-## Running Tests
+## Linting and formatting
 
-```
-$ polymer test
-```
+To scan the project for linting and formatting errors, run
 
-## Build
-```
-$ npm run build
+```bash
+npm run lint
 ```
 
-Your application is already set up to be tested via [web-component-tester](https://github.com/Polymer/web-component-tester). Run `polymer test` to run your application's test suite locally.
+To automatically fix linting and formatting errors, run
 
-##Author
-**user**
+```bash
+npm run format
+```
 
-## License
+## Testing with Web Test Runner
 
-This project is licensed under the Apache 2.0 License - see the [LICENSE](LICENSE) file for details
+To execute a single test run:
 
-## Generated
+```bash
+npm run test
+```
 
-**generator-lit-element-base** - *yeoman npm package* - by [@manufosela](https://github.com/manufosela/generator-litelement-webcomponent)
+To run the tests in interactive watch mode run:
+
+```bash
+npm run test:watch
+```
+
+
+## Tooling configs
+
+For most of the tools, the configuration is in the `package.json` to minimize the amount of files in your project.
+
+If you customize the configuration a lot, you can consider moving them to individual files.
+
+## Local Demo with `web-dev-server`
+
+```bash
+npm start
+```
+
+To run a local development server that serves the basic demo located in `demo/index.html`
